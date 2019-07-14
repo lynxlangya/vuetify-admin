@@ -1,7 +1,7 @@
 import {
-  constantRoutes
+    constantRoutes
 } from '@/router'
 
 export default {
-  constantRoutes
+    constantRoutes
 }

@@ -16,7 +16,7 @@ Vue.use(Vuex)
 //   }
 // })
 const store = new Vuex.Store({
-  getters
+    getters
 })
 
 export default store
