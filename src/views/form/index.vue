@@ -1,9 +1,9 @@
 <template>
-  <h1>Dashboard Charts</h1>
+  <h1>Form</h1>
 </template>
 <script>
 export default {
-  name: 'Dashboard',
+  name: 'Form',
   data () {
     return {
 

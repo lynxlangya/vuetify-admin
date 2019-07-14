@@ -1,9 +1,8 @@
 <template>
-  <h1>Dashboard Charts</h1>
+  <h1>Tables 模板</h1>
 </template>
 <script>
 export default {
-  name: 'Dashboard',
   data () {
     return {
 
@@ -19,6 +18,3 @@ export default {
   }
 }
 </script>
-<style lang='scss' scoped>
-
-</style>

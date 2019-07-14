@@ -1,8 +1,9 @@
 <template>
     <v-navigation-drawer
+      id="sidebar"
       v-model="drawer"
       app
-      width="240"
+      width="255"
       :mini-variant.sync="mini"
       hide-overlay
       stateless
@@ -14,7 +15,7 @@
             <img src="../assets/images/avatar.jpg" @click="avatarClick"/>
           </v-list-tile-avatar>
 
-          <v-list-tile-content>
+          <v-list-tile-content @click="titleClick">
             <v-list-tile-title class="title-style">{{ title }}</v-list-tile-title>
           </v-list-tile-content>
 
@@ -30,60 +31,99 @@
     <v-list class="pt-0" dense>
       <v-divider></v-divider>
 
-      <v-list-tile v-for="(item, index) in routes" :key="index" @click="listClick(item)">
+      <v-list-tile v-for="(item, index) in routes" :key="index" :to="item.name" @click="listClick(item)">
         <v-list-tile-action>
           <v-icon>{{ item.meta.icon }}</v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
-          <v-list-tile-title>{{ item.meta.name }}</v-list-tile-title>
+          <v-list-tile-title>{{ item.meta.title }}</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
     </v-list>
     </v-navigation-drawer>
 </template>
 <script>
-import { mapState } from 'vuex'
+/**
+ * @author MARS 2019-07-14
+ */
+import { mapGetters } from 'vuex'
+import 'perfect-scrollbar/css/perfect-scrollbar.css'
+import PerfectScrollbar from 'perfect-scrollbar'
 export default {
   name: 'Siderbar',
   computed: {
-    ...mapState({
-      // sidebarClosed: state => state.sidebarClosed,
-      // routers: state => state.Permission.routers
-      // routes: function (state) {
-      //   console.log(state)
-      //   console.log(this.$router.options)
-      // }
-      routes () {
-        console.log(this.$router.options)
-        const { routes } = this.$router.options
-        return routes
-      }
-    })
+    ...mapGetters([
+      'permission_routes'
+    ]),
+    routes () {
+      console.log(this.$router.options)
+      const { routes } = this.$router.options
+      return routes
+    }
   },
   data () {
     return {
       drawer: true,
       mini: true,
       right: null,
-      title: 'Dare to dream'
+      title: 'Vuetify Admin',
+      scroll: null
     }
   },
   mounted () {
-    console.log(this.routes)
+
+  },
+  created () {
+    this.$nextTick(() => {
+      this.scroll = new PerfectScrollbar('#sidebar', {
+        suppressScrollX: true
+      })
+      this.$emit('changeTemporary', this.temporary)
+    })
+    this.temporary = this.$vuetify && this.$vuetify.breakpoint.smAndDown
+  },
+  beforeDestroy () {
+    this.scroll.destroy()
+    this.scroll = null
   },
   methods: {
-    // ?点击了侧边栏菜单
+    /**
+     * @param {Object} item 点击某一路由
+     * @method 列表点击
+     */
     listClick (item) {
       console.log(item)
     },
-    // ?logo点击
+
+    /**
+     * @method Logo点击
+     */
     avatarClick () {
       console.log('点击了logo')
+    },
+
+    /**
+     * @method title点击=>Github地址
+     */
+    titleClick () {
+      window.open('https://github.com/wangyunfan418/vuetify-admin')
     }
   }
 }
 </script>
 <style lang="stylus" scoped>
+/deep/.primary--text
+  color #ffffff !important
+  background rgba(255,255,255,0.2) !important
 .title-style
-  color red
+  color transparent
+  font-family Georgia
+  font-style italic
+  font-weight bold
+  text-shadow 0 0 0 #ffffff
+  transition all 250ms ease-in
+  cursor pointer
+.title-style:hover
+  text-shadow 0 0 2px #ffffff
+  color #dddddd
 </style>

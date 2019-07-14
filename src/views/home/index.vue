@@ -1,9 +1,9 @@
 <template>
-  <h1>Dashboard Charts</h1>
+  <h1>This is Home.</h1>
 </template>
 <script>
 export default {
-  name: 'Dashboard',
+  name: 'Home',
   data () {
     return {
 
@@ -19,6 +19,3 @@ export default {
   }
 }
 </script>
-<style lang='scss' scoped>
-
-</style>

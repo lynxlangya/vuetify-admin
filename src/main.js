@@ -4,7 +4,6 @@ import App from './App.vue'
 import router from './router/index'
 import store from './store/index'
 import './registerServiceWorker'
-// import 'vuetify/dist/vuetify.min.css'
 
 Vue.config.productionTip = false
 
