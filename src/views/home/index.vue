@@ -1,21 +1,30 @@
 <template>
-    <h1>This is Home.</h1>
+    <div>
+        <h1>This is Home.</h1>
+        <v-layout v-resize="onResize" column align-center justify-center>
+            <v-subheader>Window Size</v-subheader>
+            {{ windowSize }}
+        </v-layout>
+    </div>
 </template>
 <script>
 export default {
     name: 'Home',
-    data () {
-        return {
-
+    data: () => ({
+        windowSize: {
+            x: 0,
+            y: 0
         }
-    },
-    // !页面初始化加载
+    }),
+
     mounted () {
-
+        this.onResize()
     },
-    // !方法, 处理事件
-    methods: {
 
+    methods: {
+        onResize () {
+            this.windowSize = { x: window.innerWidth, y: window.innerHeight }
+        }
     }
 }
 </script>

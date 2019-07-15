@@ -28,31 +28,31 @@ export default {
     },
     mounted () {},
     methods: {
-    /**
-     * @method 搜索事件
-     */
+        /**
+         * @method 搜索事件
+         */
         searchClick () {
             console.log('点击了搜索')
         },
 
         /**
-     * @method 功能性按钮
-     */
+         * @method 功能性按钮
+         */
         featClick () {
             console.log('点击了功能性按钮')
         },
 
         /**
-     * @method 通知消息
-     */
+         * @method 通知消息
+         */
         messageClick () {
             console.log('点击了通知消息')
         },
 
         /**
-     * @param {string} val 图标展示方式
-     * @method 判断图标类型
-     */
+         * @param {string} val 图标展示方式
+         * @method 判断图标类型
+         */
         fullscreenClick (val) {
             if (val === 'fullscreen') {
                 this.fullscreenIcon = 'fullscreen_exit'
@@ -66,8 +66,8 @@ export default {
         },
 
         /**
-     * @method 点击头像
-     */
+         * @method 点击头像
+         */
         avatarClick () {
             console.log('点击了头像')
         }

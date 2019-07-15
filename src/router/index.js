@@ -1,12 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Layout from '@/Layout'
 
 Vue.use(Router)
 
 export const constantRoutes = [{
     path: '/',
-    component: Layout,
+    component: () => import('@/Layout'),
     name: 'Home',
     meta: {
         icon: 'home',
@@ -14,12 +13,12 @@ export const constantRoutes = [{
     },
     children: [{
         path: '/home',
-        component: () => import('@/views/home/index.vue')
+        component: () => import('@/views/home')
     }]
 },
 {
     path: '/dashboard',
-    component: Layout,
+    component: () => import('@/Layout'),
     name: 'Dashboard',
     meta: {
         icon: 'show_chart',
@@ -27,12 +26,12 @@ export const constantRoutes = [{
     },
     children: [{
         path: '/dashboard',
-        component: () => import('@/views/dashboard/index.vue')
+        component: () => import('@/views/dashboard')
     }]
 },
 {
     path: '/form',
-    component: Layout,
+    component: () => import('@/Layout'),
     name: 'Form',
     meta: {
         icon: 'format_align_left',
@@ -40,12 +39,12 @@ export const constantRoutes = [{
     },
     children: [{
         path: '/form',
-        component: () => import('@/views/form/index.vue')
+        component: () => import('@/views/form')
     }]
 },
 {
     path: '/tables',
-    component: Layout,
+    component: () => import('@/Layout'),
     name: 'Tables',
     meta: {
         icon: 'table_chart',
@@ -53,13 +52,13 @@ export const constantRoutes = [{
     },
     children: [{
         path: '/tables',
-        component: () => import('@/views/tables/index.vue')
+        component: () => import('@/views/tables')
     }]
 }
 ]
 
 const createRouter = () => new Router({
-    mode: 'history', // require service support
+    mode: 'history',
     scrollBehavior: () => ({
         y: 0
     }),
