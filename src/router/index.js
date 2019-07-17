@@ -6,20 +6,19 @@ Vue.use(Router)
 export const constantRoutes = [{
     path: '/',
     component: () => import('@/Layout'),
-    name: 'Home',
     meta: {
         icon: 'home',
         title: 'Home'
     },
     children: [{
-        path: '/home',
+        name: 'Home',
+        path: '/',
         component: () => import('@/views/home')
     }]
 },
 {
     path: '/dashboard',
     component: () => import('@/Layout'),
-    name: 'Dashboard',
     meta: {
         icon: 'show_chart',
         title: 'Dashboard'
@@ -30,31 +29,76 @@ export const constantRoutes = [{
     }]
 },
 {
-    path: '/form',
+    path: '/menu',
+    name: 'Menu',
     component: () => import('@/Layout'),
-    name: 'Form',
     meta: {
-        icon: 'format_align_left',
-        title: 'form'
+        icon: 'menu',
+        title: 'Menu',
+        child: true
     },
     children: [{
-        path: '/form',
-        component: () => import('@/views/form')
-    }]
-},
-{
-    path: '/tables',
-    component: () => import('@/Layout'),
-    name: 'Tables',
-    meta: {
-        icon: 'table_chart',
-        title: 'Tables'
-    },
-    children: [{
-        path: '/tables',
-        component: () => import('@/views/tables')
+        path: '/menu1-1',
+        name: 'Menu1',
+        component: () => import('@/views/menu/menu1-1'),
+        meta: {
+            icon: 'menu',
+            title: 'Menu1-1'
+        }
+    }, {
+        path: '/menu1-2',
+        name: 'Menu2',
+        component: () => import('@/views/menu/menu1-2'),
+        meta: {
+            icon: 'menu',
+            title: 'Menu1-2'
+        }
+    }, {
+        path: '/menu1-3',
+        name: 'Menu3',
+        component: () => import('@/views/menu/menu1-3'),
+        meta: {
+            icon: 'menu',
+            title: 'Menu1-3'
+        }
     }]
 }
+    // {
+    //     path: '/form',
+    //     component: () => import('@/Layout'),
+    //     meta: {
+    //         icon: 'format_align_left',
+    //         title: 'form'
+    //     },
+    //     children: [{
+    //         path: '/form',
+    //         component: () => import('@/views/form')
+    //     }]
+    // },
+    // {
+    //     path: '/tables',
+    //     component: () => import('@/Layout'),
+    //     meta: {
+    //         icon: 'table_chart',
+    //         title: 'Tables'
+    //     },
+    //     children: [{
+    //         path: '/tables',
+    //         component: () => import('@/views/tables')
+    //     }]
+    // },
+    // {
+    //     path: '/menu',
+    //     component: () => import('@/Layout'),
+    //     meta: {
+    //         icon: 'menu',
+    //         title: 'Menu'
+    //     },
+    //     children: [{
+    //         path: '/menu',
+    //         component: () => import('@/views/menu')
+    //     }]
+    // }
 ]
 
 const createRouter = () => new Router({
@@ -67,7 +111,6 @@ const createRouter = () => new Router({
 
 const router = createRouter()
 
-// Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
 export function resetRouter () {
     const newRouter = createRouter()
     router.matcher = newRouter.matcher

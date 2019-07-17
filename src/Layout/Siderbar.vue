@@ -32,50 +32,43 @@
             <v-divider></v-divider>
             <!-- 一级菜单 -->
             <template v-for="(item, index) in routes">
-                <v-list-tile :key="index" :to="item.name" @click="listClick(item)">
-                    <v-list-tile-action>
-                        <v-icon>{{ item.meta.icon }}</v-icon>
-                    </v-list-tile-action>
-                    <v-list-tile-content>
-                        <v-list-tile-title>{{ item.meta.title }}</v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
-            </template>
-            <!-- <template> -->
-            <v-list-group no-action prepend-icon="account_circle">
-                <template v-slot:activator>
-                    <v-list-tile>
-                        <v-list-tile-title>Users</v-list-tile-title>
-                    </v-list-tile>
-                </template>
-                <template v-for="(Two, i) in Twos">
-                    <!-- 二级菜单 -->
-                    <v-list-tile :key="i" @click="t2Click()">
-                        <v-list-tile-title>{{ Two.meta.title }}</v-list-tile-title>
+                <template>
+                    <v-list-tile :key="index" :to="item.path" @click="listClick(item)">
                         <v-list-tile-action>
-                            <v-icon>{{ Two.meta.icon }}</v-icon>
+                            <v-icon>{{ item.meta.icon }}</v-icon>
                         </v-list-tile-action>
+                        <v-list-tile-content>
+                            <v-list-tile-title>{{ item.meta.title }}</v-list-tile-title>
+                        </v-list-tile-content>
                     </v-list-tile>
                 </template>
-
-                <!-- 三级菜单 -->
-                <!-- <template>
-                    <v-list-group sub-group no-action>
+                <!-- <v-list-tile :key="index" :to="item.path" @click="listClick(item)">
+                        <v-list-tile-action>
+                            <v-icon>{{ item.meta.icon }}</v-icon>
+                        </v-list-tile-action>
+                        <v-list-tile-content>
+                            <v-list-tile-title>{{ item.meta.title }}</v-list-tile-title>
+                        </v-list-tile-content>
+                    </v-list-tile>
+                </template>
+                <template v-else>
+                    <v-list-group no-action prepend-icon="account_circle">
                         <template v-slot:activator>
                             <v-list-tile>
-                                <v-list-tile-title>Actions</v-list-tile-title>
+                                <v-list-tile-title>{{ routeName }}</v-list-tile-title>
                             </v-list-tile>
                         </template>
-                        <v-list-tile v-for="(Three, i) in Threes" :key="i" @click="t3Click()">
-                            <v-list-tile-title v-text="Three[0]"></v-list-tile-title>
-                            <v-list-tile-action>
-                                <v-icon v-text="Three[1]"></v-icon>
-                            </v-list-tile-action>
-                        </v-list-tile>
+                        <template v-for="(route, i) in routesChildren">
+                            <v-list-tile :key="i" :to="route.path" @click="t2Click()">
+                                <v-list-tile-title>{{ route.meta.title }}</v-list-tile-title>
+                                <v-list-tile-action>
+                                    <v-icon>{{ route.meta.icon }}</v-icon>
+                                </v-list-tile-action>
+                            </v-list-tile>
+                        </template>
                     </v-list-group>
                 </template>-->
-            </v-list-group>
-            <!-- </template> -->
+            </template>
         </v-list>
     </v-navigation-drawer>
 </template>
@@ -85,8 +78,6 @@
  * @package PerfectScrollbar 侧边栏滚动条
  */
 import { mapGetters } from 'vuex'
-import 'perfect-scrollbar/css/perfect-scrollbar.css'
-import PerfectScrollbar from 'perfect-scrollbar'
 export default {
     name: 'Siderbar',
     computed: {
@@ -94,9 +85,27 @@ export default {
             'permission_routes'
         ]),
         routes () {
-            console.log(this.$router.options)
+            console.log(this.$route)
+            // const routeName = this.$route.name
             const { routes } = this.$router.options
             console.log(routes)
+            // try {
+            //     for (let i = 0, len = routes.length; i < len; i += 1) {
+            //         if (routes[i].children) {
+            //             console.log(routes[i].children)
+            //             for (let j = 0, len = routes[i].children.length; j < len; j += 1) {
+            //                 const child = routes[i].children[j]
+            //                 if (child.name === routeName) {
+            //                     return routes[i].children
+            //                 }
+            //             }
+            //         } else if (routes[i].name === routeName) {
+            //             return routes[i]
+            //         }
+            //     }
+            // } catch (error) {
+            //     console.error('Please check the route: ' + error)
+            // }
             return routes
         }
     },
@@ -108,16 +117,18 @@ export default {
             title: 'Vuetify Admin',
             scroll: null,
 
+            // ?二级路由名称
+            routeName: '',
             // ?二级
-            Twos: [
-                {
-                    name: 'create',
-                    path: '/create',
-                    meta: {
-                        icon: 'add',
-                        title: 'Create'
-                    }
-                }
+            routesChildren: [
+                // {
+                //     name: 'create',
+                //     path: '/create',
+                //     meta: {
+                //         icon: 'add',
+                //         title: 'Create'
+                //     }
+                // }
             ],
             // ?三级
             Threes: [
@@ -127,20 +138,7 @@ export default {
         }
     },
     mounted () {
-
-    },
-    created () {
-        this.$nextTick(() => {
-            this.scroll = new PerfectScrollbar('#sidebar', {
-                suppressScrollX: true
-            })
-            this.$emit('changeTemporary', this.temporary)
-        })
-        this.temporary = this.$vuetify && this.$vuetify.breakpoint.smAndDown
-    },
-    beforeDestroy () {
-        this.scroll.destroy()
-        this.scroll = null
+        // console.log(this.routesChildren)
     },
     methods: {
         /**
