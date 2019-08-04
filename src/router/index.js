@@ -1,119 +1,130 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from 'vue';
+import Router from 'vue-router';
 
-Vue.use(Router)
+/* Layout */
+import Layout from '@/views/layout/Layout.vue';
+import Landing from '@/views/auth/Landing.vue';
+
+/* Router Modules */
+import authRouter from './modules/auth';
+import errorsRouter from './modules/errors';
+import permissionRouter from './modules/permission';
+import vuetifyRouter from './modules/vuetify';
+import nestedRouter from './modules/nested';
+import componentsRouter from './modules/components';
+
+Vue.use(Router);
+
+/** note: sub-menu only appear when children.length>=1
+ *  detail see  https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
+ */
+
+/**
+ * hidden: true                   if `hidden:true` will not show in the sidebar(default is false)
+ * alwaysShow: true               if set true, will always show the root menu, whatever its
+ *                                child routes length
+ *                                if not set alwaysShow, only more than one route under the children
+ *                                it will becomes nested mode, otherwise not show the root menu
+ * redirect: noredirect           if `redirect:noredirect` will no redirect in the breadcrumb
+ * name:'router-name'             the name is used by <keep-alive> (must set!!!)
+ * meta : {
+    roles: ['admin','editor']    will control the page roles (you can set multiple roles)
+    title: 'title'               the name show in sub-menu and breadcrumb (recommend set)
+    icon: 'svg-name'             the icon show in the sidebar
+    noCache: true                if true, the page will no be cached(default is false)
+    breadcrumb: false            if false, the item will hidden in breadcrumb(default is true)
+    affix: true                  if true, the tag will affix in the tags-view
+  }
+ */
 
 export const constantRoutes = [{
-    path: '/',
-    component: () => import('@/Layout'),
-    meta: {
-        icon: 'home',
-        title: 'Home'
-    },
+    path: '/redirect',
+    component: Layout,
+    hidden: true,
     children: [{
-        name: 'Home',
-        path: '/',
-        component: () => import('@/views/home')
+        path: '/redirect/:path*',
+        component: () => import('@/views/redirect/index')
+    }]
+},
+{
+    path: '/landing',
+    alias: '/land',
+    component: Landing,
+    hidden: true
+},
+{
+    path: '/dashboard',
+    alias: '/dash',
+    component: Layout,
+    children: [{
+        path: '/dashboard',
+        component: () => import('@/views/components/Dashboard/index'),
+        name: 'Dashboard',
+        // eslint-disable-next-line
+            meta: {
+            title: 'route.dashboard',
+            icon: 'dashboard',
+            noCache: true,
+            affix: true
+        }
     }]
 },
 {
     path: '/dashboard',
-    component: () => import('@/Layout'),
-    meta: {
-        icon: 'show_chart',
-        title: 'Dashboard'
-    },
+    alias: '/dash',
+    component: Layout,
     children: [{
-        path: '/dashboard',
-        component: () => import('@/views/dashboard')
+        path: '/documentation',
+        component: () => import('@/views/components/Documentation'),
+        name: 'Documentation',
+        // eslint-disable-next-line
+            meta: {
+            title: 'route.documentation',
+            icon: 'subject',
+            noCache: true,
+            affix: true
+        }
     }]
 },
 {
-    path: '/menu',
-    name: 'Menu',
-    component: () => import('@/Layout'),
-    meta: {
-        icon: 'menu',
-        title: 'Menu',
-        child: true
-    },
+    path: '/dashboard',
+    alias: '/dash',
+    component: Layout,
     children: [{
-        path: '/menu1-1',
-        name: 'Menu1',
-        component: () => import('@/views/menu/menu1-1'),
-        meta: {
-            icon: 'menu',
-            title: 'Menu1-1'
-        }
-    }, {
-        path: '/menu1-2',
-        name: 'Menu2',
-        component: () => import('@/views/menu/menu1-2'),
-        meta: {
-            icon: 'menu',
-            title: 'Menu1-2'
-        }
-    }, {
-        path: '/menu1-3',
-        name: 'Menu3',
-        component: () => import('@/views/menu/menu1-3'),
-        meta: {
-            icon: 'menu',
-            title: 'Menu1-3'
+        path: '/guide',
+        component: () => import('@/views/components/Guide'),
+        name: 'Guide',
+        // eslint-disable-next-line
+            meta: {
+            title: 'route.guide',
+            icon: 'near_me',
+            noCache: true,
+            affix: true
         }
     }]
-}
-    // {
-    //     path: '/form',
-    //     component: () => import('@/Layout'),
-    //     meta: {
-    //         icon: 'format_align_left',
-    //         title: 'form'
-    //     },
-    //     children: [{
-    //         path: '/form',
-    //         component: () => import('@/views/form')
-    //     }]
-    // },
-    // {
-    //     path: '/tables',
-    //     component: () => import('@/Layout'),
-    //     meta: {
-    //         icon: 'table_chart',
-    //         title: 'Tables'
-    //     },
-    //     children: [{
-    //         path: '/tables',
-    //         component: () => import('@/views/tables')
-    //     }]
-    // },
-    // {
-    //     path: '/menu',
-    //     component: () => import('@/Layout'),
-    //     meta: {
-    //         icon: 'menu',
-    //         title: 'Menu'
-    //     },
-    //     children: [{
-    //         path: '/menu',
-    //         component: () => import('@/views/menu')
-    //     }]
-    // }
-]
+},
+errorsRouter,
+...authRouter
+];
 
-const createRouter = () => new Router({
-    mode: 'history',
+export default new Router({
+    // mode: 'history', // require service support
     scrollBehavior: () => ({
         y: 0
     }),
     routes: constantRoutes
-})
+});
 
-const router = createRouter()
-
-export function resetRouter () {
-    const newRouter = createRouter()
-    router.matcher = newRouter.matcher
-}
-
-export default router
+export const asyncRoutes = [
+    /** When your routing table is too long, you can split it into small modules */
+    permissionRouter,
+    vuetifyRouter,
+    nestedRouter,
+    ...componentsRouter,
+    // chartsRouter,
+    {
+        path: '*',
+        redirect: '/error/404',
+        hidden: true
+    }
+];

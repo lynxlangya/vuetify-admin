@@ -1,6 +1,6 @@
 {
-  "name": "vuetify-admin",
-  "short_name": "vuetify-admin",
+  "name": "web",
+  "short_name": "web",
   "icons": [
     {
       "src": "./img/icons/android-chrome-192x192.png",

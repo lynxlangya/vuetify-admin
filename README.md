@@ -1,31 +1,11 @@
-# vuetify-admin
+# vue-vuetify-admin
 
-## Project setup
+<p align="center">
+  <img width="320" src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-300.png">
+</p>
 
-```npm
-npm install
-```
-
-### Compiles and hot-reloads for development
-
-```npm
-npm run serve
-```
-
-### Compiles and minifies for production
-
-```npm
-npm run build
-```
-
-### Run your tests
-
-```npm
-npm run test
-```
-
-### Lints and fixes files
-
-```npm
-npm run lint
-```
+<p align="center">
+  <a href="https://github.com/vuejs/vue">
+    <img src="https://img.shields.io/badge/vue-2.6.6-brightgreen.svg" alt="vue">
+  </a>
+</p>

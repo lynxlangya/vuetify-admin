@@ -1,22 +1,28 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import getters from './getters'
+import Vue from 'vue';
+import Vuex from 'vuex';
+import syncStorage from './plugins/syncStorage';
+import permission from './modules/permission';
+import settings from './modules/settings';
+import user from './modules/user';
+import getters from './getters';
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
-// export default new Vuex.Store({
-//   state: {
+export default new Vuex.Store({
+    modules: {
+        permission,
+        settings,
+        user
+    },
 
-//   },
-//   mutations: {
+    plugins: [
+        syncStorage({})
+    ],
 
-//   },
-//   actions: {
-
-//   }
-// })
-const store = new Vuex.Store({
-    getters
-})
-
-export default store
+    state: {},
+    mutations: {},
+    actions: {},
+    getters: {
+        ...getters
+    }
+});

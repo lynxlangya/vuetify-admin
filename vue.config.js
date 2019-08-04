@@ -1,18 +1,22 @@
-/**
- * @author MARS <marshal_max@163.com>
- *
- * @module BundleAnalyzerPlugin 可视化打包
- */
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const path = require('path');
+const defaultSettings = require('./src/settings.js');
+
+function resolve(dir) {
+    return path.join(__dirname, dir);
+}
+
+const name = defaultSettings.title || 'Vuetify Admin';
 
 module.exports = {
-    configureWebpack: config => {
-        if (process.env.NODE_ENV === 'production') {
-            return {
-                plugins: [
-                    new BundleAnalyzerPlugin()
-                ]
+    publicPath: process.env.NODE_ENV === 'production'
+        ? '/vuetify-admin/'
+        : '/',
+    configureWebpack: {
+        name,
+        resolve: {
+            alias: {
+                '@': resolve('src')
             }
         }
     }
-}
+};

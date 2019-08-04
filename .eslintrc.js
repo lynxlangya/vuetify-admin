@@ -1,17 +1,16 @@
 module.exports = {
     root: true,
     env: {
-        node: true,
-        browser: true
+        node: true
     },
-    'extends': [
+    extends: [
         'plugin:vue/essential',
-        '@vue/standard'
+        '@vue/airbnb'
     ],
     rules: {
         'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
         'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-        'indent': ['error', 4],
+        'indent': [1, 4],
         'no-var': 1,
         'no-empty': 1,
         'no-ex-assign': 1,
@@ -35,9 +34,19 @@ module.exports = {
         'no-multiple-empty-lines': 2,
         'no-trailing-spaces': 2,
         'no-const-assign': 2,
-        'no-var': 1
+        'no-var': 1,
+        'no-param-reassign': ['error',
+            {
+                props: true,
+                ignorePropertyModificationsFor: ['state']
+            }
+        ],
+        'arrow-parens': ['error', 'as-needed'],
+        'comma-dangle': ['error', {
+            arrays: 'never'
+        }]
     },
     parserOptions: {
         parser: 'babel-eslint'
     }
-}
+};
