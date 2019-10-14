@@ -2,6 +2,7 @@
 node_modules
 /dist
 package-lock.json
+.prettierrc.json
 
 /tests/e2e/reports/
 selenium-debug.log
